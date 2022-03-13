@@ -4,42 +4,77 @@ import Header from "./components/Header";
 import Registration from "./pages/Registration";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-// import Login from "./pages/Login";
-// import SignUp from "./components/SignUp/SignUp";
+import Login from "./pages/Login";
+import SignIn from "./components/SignIn";
+import { Component } from "react"
+import { auth } from "./firebase/utils";
 
-function App() {
-  return (
-    <div className="App">
-      <Homepage />
+const initialState = {
+  currentUser: null,
+}
 
-      {/* <Routes>
-        <Route path='/' element={
-          <MainLayout>
-            <Homepage />
-          </MainLayout>
-        } />
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...initialState
+    }
+  }
 
-        <Route path='/registration' element={
-          <MainLayout>
-            <Registration />
-          </MainLayout>
-        } />
+  authListener = null;
 
-        <Route path='/login' element={
-          <MainLayout>
-            <Login />
-          </MainLayout>
-        } />
+  componentDidMount() {
+    this.authListener = auth.onAuthStateChanged(userAuth => {
+      if (!userAuth)
+        this.setState({
+          ...initialState,
+        });
 
-        <Route path='/signup' element={
-          <MainLayout>
-            <SignUp />
-          </MainLayout>
-        } />
+      this.setState({
+        currentUser: userAuth,
+      })
+    })
+  }
 
-      </Routes> */}
-    </div>
-  );
+  componentWillUnmount() {
+    this.authListener();
+  }
+
+
+  render() {
+    const { currentUser } = this.state
+    return (
+      <div className="App">
+
+        <Routes>
+          <Route path='/' element={
+            <MainLayout currentUser={currentUser}>
+              <Homepage />
+            </MainLayout>
+          } />
+
+          <Route path='/registration' element={
+            <MainLayout currentUser={currentUser}>
+              <Registration />
+            </MainLayout>
+          } />
+
+          <Route path='/login' element={
+            <MainLayout currentUser={currentUser}>
+              <Login />
+            </MainLayout>
+          } />
+
+          <Route path='/signin' element={
+            <MainLayout currentUser={currentUser}>
+              <SignIn />
+            </MainLayout>
+          } />
+
+        </Routes>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,39 +1,47 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { firebaseConfig } from './config';
+import { getFirestore } from 'firebase/firestore';
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
-const firebase = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-export const auth = auth();
-export const firestore = firestore();
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);
 
-// export const handleUserProfile = async ({ userAuth, additionalData }) => {
-//     if (!userAuth) return;
+const provider = new GoogleAuthProvider();
 
-//     const { uid } = userAuth;
+export const signInWithGoogle = () => {
+    signInWithPopup(auth, provider);
+}
 
-//     const userRef = firestore.doc(`user/${uid}`);
-//     const snapshot = await userRef.get();
+export const handleUserProfile = async ({ userAuth, additionalData }) => {
+    if (!userAuth) return;
 
-//     if (!snapshot.exists) {
-//         const { displayName, email } = userAuth;
-//         const timestamp = new Date;
-//         const userRoles = ["user"];
+    const { uid } = userAuth;
 
-//         try {
-//             await userRef.set({
-//                 displayName,
-//                 email,
-//                 createDate: timestamp,
-//                 userRoles,
-//                 ...additionalData
-//             })
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
+    const userRef = firestore.doc(`user/${uid}`);
+    const snapshot = await userRef.get();
 
-//     return userRef;
+    if (!snapshot.exists) {
+        const { displayName, email } = userAuth;
+        const timestamp = new Date;
+        const userRoles = ["user"];
 
-// }
+        try {
+            await userRef.set({
+                displayName,
+                email,
+                createDate: timestamp,
+                userRoles,
+                ...additionalData
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    return userRef;
+
+}

@@ -10,7 +10,6 @@ const initialState = {
     password: "",
     confirmPassword: "",
     errors: [],
-
 }
 
 class SignUp extends Component {
@@ -23,47 +22,47 @@ class SignUp extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    // handleChange(e) {
-    //     const { name, value } = e.target;
-    //     this.setState({
-    //         [name]: value
-    //     });
-    // }
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
+        });
+    }
 
-    // handleFormSubmit = async e => {
+    handleFormSubmit = async e => {
 
-    //     e.preventDefault();
+        e.preventDefault();
 
-    //     const { displayName, email, password, confirmPassword, errors } = this.state;
-    //     if (password !== confirmPassword) {
-    //         const err = ["password don't match"];
+        const { displayName, email, password, confirmPassword, errors } = this.state;
+        if (password !== confirmPassword) {
+            const err = ["password don't match"];
 
-    //         this.setState({
-    //             errors: err,
-    //         });
-    //         console.log(errors.length)
-    //         return;
-    //     }
+            this.setState({
+                errors: err,
+            });
+            console.log(errors.length)
+            return;
+        }
 
-    //     try {
-    //         const { user } = await auth.createUserWithEmailAndPassword(email, password);
-    //         await handleUserProfile(user, { displayName });
-    //         this.setState(
-    //             {
-    //                 ...initialState
-    //             }
-    //         )
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+        // try {
+        //     const { user } = await auth.createUserWithEmailAndPassword(email, password);
+        //     await handleUserProfile(user, { displayName });
+        //     this.setState(
+        //         {
+        //             ...initialState
+        //         }
+        //     )
+        // } catch (error) {
+        //     console.log(error)
+        // }
+    }
 
     render() {
         const { displayname, email, password, confirmPassword, errors } = this.state;
 
         return (
             <div className="signUp">
-                {/* <div className="wrap">
+                <div className="wrap">
                     <h2>Signup</h2>
                 </div>
 
@@ -117,11 +116,10 @@ class SignUp extends Component {
                             Register
                         </Button>
                     </form>
-                </div> */}
+                </div>
             </div>
         )
     }
-
 }
 
 export default SignUp
