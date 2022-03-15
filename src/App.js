@@ -25,22 +25,29 @@ class App extends Component {
   authListener = null;
 
   componentDidMount() {
-    this.authListener = auth.onAuthStateChanged(userAuth => {
+
+    this.authListener = auth.onAuthStateChanged(async userAuth => {
+
       if (userAuth) {
-        const userRef = await handleUserProfile(userAuth => {
-          onSnapshot(userRef, snapshot => {
-            this.setState({
-              id: snapshot.id,
-              ...snapshot.data(),
-            })
-          })
-        })
+        console.log(userAuth)
+        const userRef = await handleUserProfile(userAuth);
+        // onSnapshot(userRef, snapshot => {
+        //   this.setState({
+        //     id: snapshot.id,
+        //     ...snapshot.data(),
+        //   })
+        // })
+
       }
+
+      this.setState({
+        ...initialState
+      })
     })
   }
 
   componentWillUnmount() {
-    this.authListener();
+    // this.authListener();
   }
 
   render() {
