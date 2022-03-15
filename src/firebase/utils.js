@@ -15,12 +15,14 @@ export const signInWithGoogle = () => {
     signInWithPopup(auth, provider);
 }
 
-export const handleUserProfile = async ({ userAuth, additionalData }) => {
+export const handleUserProfile = async (userAuth, additionalData) => {
+    console.log("userAuth", userAuth)
     if (!userAuth) return;
 
     const { uid } = userAuth;
 
-    const userRef = doc(`user/${uid}`)
+    const userRef = doc(`users/${uid}`);
+    console.log("userRef", userRef)
     const snapshot = await getDoc(userRef);
 
     if (!snapshot.exists) {
