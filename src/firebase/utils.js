@@ -2,13 +2,12 @@ import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { firebaseConfig } from './config';
-import { getFirestore } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-export const firestore = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 
@@ -21,8 +20,8 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
 
     const { uid } = userAuth;
 
-    const userRef = firestore.doc(`user/${uid}`);
-    const snapshot = await userRef.get();
+    const userRef = doc(`user/${uid}`)
+    const snapshot = await getDoc(userRef);
 
     if (!snapshot.exists) {
         const { displayName, email } = userAuth;
@@ -30,7 +29,7 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
         const userRoles = ["user"];
 
         try {
-            await userRef.set({
+            await setDoc(userRef, {
                 displayName,
                 email,
                 createDate: timestamp,

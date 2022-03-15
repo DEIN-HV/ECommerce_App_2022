@@ -2,12 +2,13 @@ import Homepage from "./pages/Homepage";
 import "./default.scss"
 import Header from "./components/Header";
 import Registration from "./pages/Registration";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Login from "./pages/Login";
 import SignIn from "./components/SignIn";
 import { Component } from "react"
-import { auth } from "./firebase/utils";
+import { auth, handleUserProfile } from "./firebase/utils";
+import { onSnapshot } from "firebase/firestore"
 
 const initialState = {
   currentUser: null,
@@ -25,21 +26,22 @@ class App extends Component {
 
   componentDidMount() {
     this.authListener = auth.onAuthStateChanged(userAuth => {
-      if (!userAuth)
-        this.setState({
-          ...initialState,
-        });
-
-      this.setState({
-        currentUser: userAuth,
-      })
+      if (userAuth) {
+        const userRef = await handleUserProfile(userAuth => {
+          onSnapshot(userRef, snapshot => {
+            this.setState({
+              id: snapshot.id,
+              ...snapshot.data(),
+            })
+          })
+        })
+      }
     })
   }
 
   componentWillUnmount() {
     this.authListener();
   }
-
 
   render() {
     const { currentUser } = this.state
@@ -48,9 +50,11 @@ class App extends Component {
 
         <Routes>
           <Route path='/' element={
-            <MainLayout currentUser={currentUser}>
-              <Homepage />
-            </MainLayout>
+            currentUser
+              ? <MainLayout currentUser={currentUser}>
+                <Homepage />
+              </MainLayout>
+              : <Navigate to="/signin" />
           } />
 
           <Route path='/registration' element={
@@ -59,16 +63,12 @@ class App extends Component {
             </MainLayout>
           } />
 
-          <Route path='/login' element={
-            <MainLayout currentUser={currentUser}>
-              <Login />
-            </MainLayout>
-          } />
-
           <Route path='/signin' element={
-            <MainLayout currentUser={currentUser}>
-              <SignIn />
-            </MainLayout>
+            currentUser
+              ? <Navigate to="/" />
+              : <MainLayout currentUser={currentUser}>
+                <SignIn />
+              </MainLayout>
           } />
 
         </Routes>
