@@ -2,12 +2,13 @@ import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { firebaseConfig } from './config';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+export const firestore = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 
@@ -17,15 +18,18 @@ export const signInWithGoogle = () => {
 
 export const handleUserProfile = async (userAuth, additionalData) => {
     console.log("userAuth", userAuth)
-    if (!userAuth) return;
 
+    if (!userAuth) return;
     const { uid } = userAuth;
 
-    const userRef = doc(`users/${uid}`);
-    console.log("userRef", userRef)
+    const userRef = doc(firestore, `users/${uid}`);
+    console.log(userRef)
     const snapshot = await getDoc(userRef);
+    console.log(snapshot)
 
+    console.log(snapshot.exists)
     if (!snapshot.exists) {
+
         const { displayName, email } = userAuth;
         const timestamp = new Date;
         const userRoles = ["user"];
