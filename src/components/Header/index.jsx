@@ -1,7 +1,6 @@
 import Logo from "../../assets/logo.png"
 import "./styles.scss";
 import { Link } from "react-router-dom";
-import Registration from "../../pages/Registration";
 import { auth } from "../../firebase/utils"
 
 const Header = props => {

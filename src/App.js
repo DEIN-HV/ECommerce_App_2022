@@ -1,7 +1,6 @@
 import Homepage from "./pages/Homepage";
 import "./default.scss"
 import Header from "./components/Header";
-import Registration from "./pages/Registration";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Login from "./pages/Login";
@@ -9,6 +8,7 @@ import SignIn from "./components/SignIn";
 import { Component } from "react"
 import { auth, handleUserProfile } from "./firebase/utils";
 import { onSnapshot } from "firebase/firestore"
+import SignUp from "./components/SignUp";
 
 const initialState = {
   currentUser: null,
@@ -66,7 +66,7 @@ class App extends Component {
 
           <Route path='/registration' element={
             <MainLayout currentUser={currentUser}>
-              <Registration />
+              <SignUp />
             </MainLayout>
           } />
 

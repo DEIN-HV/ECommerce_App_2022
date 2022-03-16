@@ -3,6 +3,7 @@ import FormInput from "../Form/FormInput";
 import "./styles.scss";
 import Button from "../Form/Button";
 import { auth, handleUserProfile } from "../../firebase/utils";
+import { createUserWithEmailAndPassword } from "firebase/auth"
 
 const initialState = {
     displayName: "",
@@ -34,6 +35,7 @@ class SignUp extends Component {
         e.preventDefault();
 
         const { displayName, email, password, confirmPassword, errors } = this.state;
+        console.log(this.state)
         if (password !== confirmPassword) {
             const err = ["password don't match"];
 
@@ -44,17 +46,18 @@ class SignUp extends Component {
             return;
         }
 
-        // try {
-        //     const { user } = await auth.createUserWithEmailAndPassword(email, password);
-        //     await handleUserProfile(user, { displayName });
-        //     this.setState(
-        //         {
-        //             ...initialState
-        //         }
-        //     )
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        try {
+            console.log("first")
+            const { user } = await createUserWithEmailAndPassword(auth, email, password)
+            await handleUserProfile(user, { displayName });
+            this.setState(
+                {
+                    ...initialState
+                }
+            )
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     render() {
