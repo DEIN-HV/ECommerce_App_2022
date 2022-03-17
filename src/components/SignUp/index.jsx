@@ -37,7 +37,7 @@ class SignUp extends Component {
         const { displayName, email, password, confirmPassword, errors } = this.state;
         console.log(this.state)
         if (password !== confirmPassword) {
-            const err = ["password don't match"];
+            const err = ["Password doesn't match"];
 
             this.setState({
                 errors: err,

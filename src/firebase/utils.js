@@ -28,24 +28,24 @@ export const handleUserProfile = async (userAuth, additionalData) => {
     console.log(snapshot)
 
     console.log(snapshot.exists)
-    if (!snapshot.exists) {
+    // if (!snapshot.exists) {
 
-        const { displayName, email } = userAuth;
-        const timestamp = new Date;
-        const userRoles = ["user"];
+    const { displayName, email } = userAuth;
+    const timestamp = new Date;
+    const userRoles = ["user"];
 
-        try {
-            await setDoc(userRef, {
-                displayName,
-                email,
-                createDate: timestamp,
-                userRoles,
-                ...additionalData
-            })
-        } catch (error) {
-            console.log(error)
-        }
+    try {
+        await setDoc(userRef, {
+            displayName,
+            email,
+            createDate: timestamp,
+            userRoles,
+            ...additionalData
+        })
+    } catch (error) {
+        console.log(error)
     }
+    // }
 
     return userRef;
 
