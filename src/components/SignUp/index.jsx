@@ -3,7 +3,9 @@ import FormInput from "../Form/FormInput";
 import "./styles.scss";
 import Button from "../Form/Button";
 import { auth, handleUserProfile } from "../../firebase/utils";
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+
 
 const initialState = {
     displayName: "",
@@ -48,13 +50,17 @@ class SignUp extends Component {
 
         try {
             console.log("first")
-            const { user } = await createUserWithEmailAndPassword(auth, email, password)
+            console.log(auth)
+
+            const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
             await handleUserProfile(user, { displayName });
             this.setState(
                 {
                     ...initialState
                 }
             )
+
         } catch (error) {
             console.log(error)
         }
