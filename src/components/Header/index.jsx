@@ -27,7 +27,7 @@ const Header = props => {
 
                         : <ul>
                             <li>
-                                <Link to="/registration">
+                                <Link to="/signup">
                                     Register
                                 </Link>
                             </li>

@@ -27,16 +27,16 @@ class App extends Component {
   componentDidMount() {
 
     this.authListener = auth.onAuthStateChanged(async userAuth => {
-
       if (userAuth) {
-        console.log(userAuth)
         const userRef = await handleUserProfile(userAuth);
-        // onSnapshot(userRef, snapshot => {
-        //   this.setState({
-        //     id: snapshot.id,
-        //     ...snapshot.data(),
-        //   })
-        // })
+        onSnapshot(userRef, snapshot => {
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data(),
+            }
+          })
+        })
 
       }
 
@@ -64,10 +64,12 @@ class App extends Component {
               : <Navigate to="/signin" />
           } />
 
-          <Route path='/registration' element={
-            <MainLayout currentUser={currentUser}>
-              <SignUp />
-            </MainLayout>
+          <Route path='/signup' element={
+            currentUser
+              ? <Navigate to="/" />
+              : <MainLayout currentUser={currentUser}>
+                <SignUp />
+              </MainLayout>
           } />
 
           <Route path='/signin' element={
