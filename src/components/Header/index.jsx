@@ -1,7 +1,9 @@
 import Logo from "../../assets/logo.png"
 import "./styles.scss";
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase/utils"
+import { auth } from "../../firebase/utils";
+import { connect } from "react-redux";
+
 
 const Header = props => {
     const { currentUser } = props;
@@ -15,7 +17,6 @@ const Header = props => {
                     </Link>
                 </div>
                 <div className="callToActions">
-
                     {currentUser
                         ? <ul>
                             <li>
@@ -27,12 +28,12 @@ const Header = props => {
 
                         : <ul>
                             <li>
-                                <Link to="/signup">
+                                <Link to="/registration">
                                     Register
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/signin">
+                                <Link to="/login">
                                     Login
                                 </Link>
                             </li>
@@ -49,4 +50,8 @@ Header.defaultProps = {
     currentUser: null,
 }
 
-export default Header;
+const mapStateToProps = ({ user }) => ({
+    currentUser: user.currentUser
+});
+
+export default connect(mapStateToProps, null)(Header);
