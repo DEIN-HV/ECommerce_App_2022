@@ -17,17 +17,12 @@ export const signInWithGoogle = () => {
 }
 
 export const handleUserProfile = async (userAuth, additionalData) => {
-    console.log("userAuth", userAuth)
 
     if (!userAuth) return;
     const { uid } = userAuth;
-
     const userRef = doc(firestore, `users/${uid}`);
-    console.log(userRef)
     const snapshot = await getDoc(userRef);
-    console.log(snapshot)
 
-    console.log(snapshot.exists)
     // if (!snapshot.exists) {
 
     const { displayName, email } = userAuth;

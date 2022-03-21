@@ -1,0 +1,15 @@
+.authWrapper {
+    width: 100%;
+    max-width: 40rem;
+    border: 1px solid rgb(148, 148, 148);
+    border-radius: 10px;
+    margin: 2rem auto;
+    padding: 20px;
+    -webkit-box-shadow: 5px 5px 15px 5px #2b2b2b;
+    box-shadow: 5px 5px 15px 5px #2b2b2b;
+
+    .pageTop {
+        display: flex;
+        justify-content: center;
+    }
+}

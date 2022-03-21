@@ -3,7 +3,7 @@ const Footer = props => {
     return (
         <footer className="footer">
             <div className="wrap">
-                Simple Tut 2022
+                © Simple Tut 2022
             </div>
         </footer>
     )

@@ -1,27 +1,17 @@
-.singin {
-    width: 100%;
-    max-width: 40rem;
-    border: 1px solid black;
-    margin: 4rem auto 6rem;
-    padding: 10px;
-
-    .wrap {
-        padding: 0 10px;
-        display: flex;
-        align-items: center;
-
-        h2 {
-            font-size: 2.2rem;
-            line-height: 1;
-            font-weight: 400;
-            text-transform: uppercase;
-            text-align: center;
-            width: 100%;
-        }
+.formWrap {
+    .socialSignIn {
+        margin: 0.5rem auto 0;
     }
-    .formWrap {
-        .socialSignIn {
-            margin: 0.5rem auto 0;
+
+    .forgotPassword {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+
+        .forgotPasswordText {
+            font-size: 15px;
+            font-weight: 500;
+            color: black;
         }
     }
 }
