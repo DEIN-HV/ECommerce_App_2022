@@ -6,8 +6,6 @@ import { auth, handleUserProfile } from "../../firebase/utils";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import AuthWrapper from "../AuthWrapper"
 
-
-
 const initialState = {
     displayName: "",
     email: "",
