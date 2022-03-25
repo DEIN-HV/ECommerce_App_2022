@@ -97,6 +97,7 @@ class SignUp extends Component {
                             placeholder="Password"
                             onChange={this.handleChange}
                         />
+
                         <FormInput
                             type="password"
                             name="confirmPassword"
@@ -122,9 +123,6 @@ class SignUp extends Component {
                     </form>
                 </div>
             </AuthWrapper>
-
-
-
         )
     }
 }
