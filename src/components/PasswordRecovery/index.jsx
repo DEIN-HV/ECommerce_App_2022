@@ -31,7 +31,6 @@ const PasswordRecovery = () => {
         e.preventDefault();
 
         try {
-            const { email } = this.state;
             const config = {
                 url: "http://localhost:3000/login",
             }
