@@ -3,6 +3,7 @@ import "./styles.scss";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/utils";
 import { connect } from "react-redux";
+import { w } from "react-router-dom"
 
 
 const Header = props => {
@@ -19,6 +20,11 @@ const Header = props => {
                 <div className="callToActions">
                     {currentUser
                         ? <ul>
+                            <li>
+                                <Link to="/dashboard">
+                                    Dashboard
+                                </Link>
+                            </li>
                             <li>
                                 <span onClick={() => auth.signOut()}>
                                     Logout
