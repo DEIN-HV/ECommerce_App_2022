@@ -13,6 +13,7 @@ import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/User/user.actions"
+import Dashboard from "./pages/Dashboard";
 
 const initialState = {
   currentUser: null,
@@ -90,6 +91,15 @@ const App = props => {
             : <MainLayout>
               <Recovery />
             </MainLayout>
+        } />
+
+        <Route path='/dashboard' element={
+          !currentUser
+            ? <Dashboard to="/login" />
+            : <MainLayout>
+              <Dashboard />
+            </MainLayout>
+
         } />
 
       </Routes>
