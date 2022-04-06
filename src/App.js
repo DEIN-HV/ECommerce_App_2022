@@ -32,23 +32,23 @@ const App = props => {
 
   useEffect(() => {
 
-    // const authListener = auth.onAuthStateChanged(async userAuth => {
-    //   if (userAuth) {
-    //     const userRef = await handleUserProfile(userAuth);
-    //     onSnapshot(userRef, snapshot => {
-    //       setCurrentUser({
-    //         id: snapshot.id,
-    //         ...snapshot.data(),
-    //       })
-    //     })
-    //   }
-    //   setCurrentUser(userAuth);
-    // });
+    const authListener = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await handleUserProfile(userAuth);
+        onSnapshot(userRef, snapshot => {
+          setCurrentUser({
+            id: snapshot.id,
+            ...snapshot.data(),
+          })
+        })
+      }
+      setCurrentUser(userAuth);
+    });
 
-    // return (() => {
-    //   authListener();
-    // })
-  })
+    return () => {
+      authListener();
+    }
+  }, [])
 
   // componentWillUnmount() {
   //   this.authListener();
