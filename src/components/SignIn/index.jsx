@@ -2,10 +2,12 @@ import Button from "../Form/Button";
 import "./styles.scss";
 import { signInWithGoogle, auth } from "../../firebase/utils";
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { Component, useState } from "react"
+import { Component, useEffect, useState } from "react"
 import FormInput from "../Form/FormInput";
 import AuthWrapper from "../AuthWrapper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signInUser } from "../../redux/User/user.actions"
 
 const initialState = {
     email: "",
@@ -13,26 +15,38 @@ const initialState = {
     errors: ""
 }
 
+const mapStateSuccess = ({ user }) => ({
+    signInSuccess: user.signInSucess
+})
+
+const mapStateFalse = ({ user }) => ({
+    signInFalse: user.signInFalse,
+    signInMess: user.signInMess,
+})
+
 const SignIn = props => {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         ...initialState
-    //     }
-
-    //     this.handleChange = this.handleChange.bind(this)
-    // }
-
-    // handleChange(e) {
-    //     const { name, value } = e.target;
-    //     this.setState({
-    //         [name]: value,
-    //     })
-    // }
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { signInSuccess } = useSelector(mapStateSuccess);
+    const { signInFalse, signInMess } = useSelector(mapStateFalse);
+
+    useEffect(() => {
+        if (signInSuccess) {
+            resetForm();
+            navigate("/");
+        }
+    }, [signInSuccess]);
+
+    useEffect(() => {
+        if (signInFalse) setErrors(signInMess)
+    }, [signInFalse]);
+
+
 
     const resetForm = () => {
         setEmail("");
@@ -42,22 +56,22 @@ const SignIn = props => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log(email, password)
 
-        try {
-            await signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    resetForm();
-                })
-                .catch(() => {
-                    const err = ["Email or Password is wrong"];
-                    setErrors(err)
-                })
+        dispatch(signInUser(email, password))
+        // try {
+        //     await signInWithEmailAndPassword(auth, email, password)
+        //         .then(() => {
+        //             resetForm();
+        //         })
+        //         .catch(() => {
+        //             const err = ["Email or Password is wrong"];
+        //             setErrors(err)
+        //         })
 
-        } catch (error) {
-            console.log(error);
+        // } catch (error) {
+        //     console.log(error);
 
-        }
+        // }
     }
 
     return (
