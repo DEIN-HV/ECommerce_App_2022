@@ -14,6 +14,7 @@ import Recovery from "./pages/Recovery";
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/User/user.actions"
 import Dashboard from "./pages/Dashboard";
+import WithAuth from "./hoc/withAuth"
 
 const initialState = {
   currentUser: null,
@@ -51,22 +52,15 @@ const App = props => {
     }
   }, [])
 
-  // componentWillUnmount() {
-  //   this.authListener();
-  // }
-
-  // render() {
-  //   const { currentUser } = this.props
   return (
     <div className="App">
 
       <Routes>
         <Route path='/' element={
-          currentUser
-            ? <MainLayout>
-              <Homepage />
-            </MainLayout>
-            : <Navigate to="/login" />
+          <MainLayout>
+            <Homepage />
+          </MainLayout>
+
         } />
 
         <Route path='/registration' element={
@@ -94,12 +88,11 @@ const App = props => {
         } />
 
         <Route path='/dashboard' element={
-          !currentUser
-            ? <Dashboard to="/login" />
-            : <MainLayout>
+          <WithAuth>
+            <MainLayout>
               <Dashboard />
             </MainLayout>
-
+          </WithAuth>
         } />
 
       </Routes>
