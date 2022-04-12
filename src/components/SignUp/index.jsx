@@ -1,10 +1,11 @@
-import { Component, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signUpUser } from "../../redux/User/user.actions";
+import AuthWrapper from "../AuthWrapper";
+import Button from "../Form/Button";
 import FormInput from "../Form/FormInput";
 import "./styles.scss";
-import Button from "../Form/Button";
-import { auth, handleUserProfile } from "../../firebase/utils";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import AuthWrapper from "../AuthWrapper"
 
 const initialState = {
     displayName: "",
@@ -14,6 +15,11 @@ const initialState = {
     errors: [],
 }
 
+const mapStateSignUp = ({ user }) => ({
+    signUpSuccess: user.signUpSuccess,
+    signUpError: user.signUpError
+})
+
 const SignUp = props => {
 
     const [displayName, setDisplayName] = useState("");
@@ -21,6 +27,11 @@ const SignUp = props => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { signUpSuccess, signUpError } = useSelector(mapStateSignUp);
 
     const resetValue = () => {
         setDisplayName("");
@@ -30,22 +41,22 @@ const SignUp = props => {
         setErrors([]);
     }
 
+    useEffect(() => {
+        if (signUpSuccess) {
+            resetValue();
+            navigate("/");
+        }
+    }, [signUpSuccess])
+
+    useEffect(() => {
+        if (Array.isArray(signUpError) && signUpError.length > 0) {
+            setErrors(signUpError)
+        }
+    }, [signUpError])
+
     const handleFormSubmit = async e => {
         e.preventDefault();
-        if (password !== confirmPassword) {
-            const err = ["Password doesn't match"];
-            setErrors(err);
-            return;
-        };
-
-        try {
-            const { user } = await createUserWithEmailAndPassword(auth, email, password);
-            await handleUserProfile(user, { displayName });
-            resetValue();
-
-        } catch (error) {
-            console.log(error)
-        }
+        dispatch(signUpUser({ displayName, email, password, confirmPassword }));
     }
 
     return (
