@@ -1,6 +1,6 @@
 import userTypes from "./user.types";
 import { auth, handleUserProfile } from "../../firebase/utils"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth"
 
 export const setCurrentUser = user => ({
     type: userTypes.SET_CURRENT_USER,
@@ -42,6 +42,7 @@ export const signUpUser = ({ displayName, email, password, confirmPassword }) =>
     };
 
     try {
+        // const { user } = await createUserWithEmailAndPassword(auth, email, password);
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
 
         dispatch({
@@ -50,6 +51,33 @@ export const signUpUser = ({ displayName, email, password, confirmPassword }) =>
         });
 
         await handleUserProfile(user, { displayName });
+
+    } catch (error) {
+        console.log(error);
+        const err = ["User or email already in use"];
+        dispatch({
+            type: userTypes.SIGNUP_ERROR,
+            payload: err,
+        });
+    }
+}
+
+export const resetPassword = ({ auth, email, config }) => async dispatch => {
+    try {
+        await sendPasswordResetEmail(auth, email, config)
+            .then(() => {
+                dispatch({
+                    type: userTypes.RESET_PASSWORD_SUCCESS,
+                    payload: true,
+                })
+            })
+            .catch(() => {
+                const err = ["Email was not found. Please try again."]
+                dispatch({
+                    type: userTypes.RESET_PASSWORD_ERROR,
+                    payload: err
+                });
+            });
 
     } catch (error) {
         console.log(error)

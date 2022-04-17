@@ -46,13 +46,13 @@ const SignUp = props => {
             resetValue();
             navigate("/");
         }
-    }, [signUpSuccess])
+    }, [signUpSuccess]);
 
     useEffect(() => {
         if (Array.isArray(signUpError) && signUpError.length > 0) {
             setErrors(signUpError)
         }
-    }, [signUpError])
+    }, [signUpError]);
 
     const handleFormSubmit = async e => {
         e.preventDefault();
@@ -97,11 +97,11 @@ const SignUp = props => {
                     />
 
                     {errors.length > 0 &&
-                        (<ul>
+                        (<ul className="errorMess">
                             {errors.map((err) => (
-                                <div>
+                                <li>
                                     {err}
-                                </div>
+                                </li>
                             ))}
                         </ul>
                         )
