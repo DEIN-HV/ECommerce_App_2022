@@ -1,6 +1,22 @@
 import userTypes from "./user.types";
-import { auth, handleUserProfile } from "../../firebase/utils"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth"
+import { auth, handleUserProfile, googleProvider } from "../../firebase/utils"
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signInWithPopup
+} from "firebase/auth"
+
+export const emailSignInStart = userCredentails => ({
+    type: userTypes.EMAIL_SIGNIN_START,
+    payload: userCredentails,
+});
+
+export const signInSuccess = user => ({
+    type: userTypes.SIGNIN_SUCCESS,
+    payload: user,
+})
+
 
 export const setCurrentUser = user => ({
     type: userTypes.SET_CURRENT_USER,
@@ -83,3 +99,21 @@ export const resetPassword = ({ auth, email, config }) => async dispatch => {
         console.log(error)
     }
 }
+
+export const signInWithGoogle = () => async dispatch => {
+    try {
+        await signInWithPopup(auth, googleProvider)
+            .then(() => {
+                dispatch({
+                    type: userTypes.SIGNIN_SUCCESS,
+                    payload: true,
+                })
+            })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const resetAuthForms = () => ({
+    type: userTypes.RESET_AUTH_FORMS,
+})

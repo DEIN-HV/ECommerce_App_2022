@@ -30,6 +30,7 @@ const App = props => {
 
   // authListener = null;
   const { setCurrentUser, currentUser } = props
+  console.log(currentUser)
 
 
   useEffect(() => {

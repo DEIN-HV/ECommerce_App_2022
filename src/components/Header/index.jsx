@@ -30,7 +30,7 @@ const Header = props => {
                                 </Link>
                             </li>
                             <li>
-                                <span onClick={() => auth.signOut()}>
+                                <span className="link" onClick={() => auth.signOut()}>
                                     Logout
                                 </span>
                             </li>

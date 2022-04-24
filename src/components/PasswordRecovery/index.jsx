@@ -24,7 +24,6 @@ const PasswordRecovery = () => {
 
     //create state message when reset success
     const { resetPasswordSuccess, resetPasswordError } = useSelector(mapState);
-    console.log(resetPasswordError, resetPasswordSuccess);
 
     const resetMess = () => {
         setSuccessMessage([]);
@@ -34,7 +33,7 @@ const PasswordRecovery = () => {
     useEffect(() => {
         if (resetPasswordSuccess) {
             resetMess();
-            const mess = ["Reset password success"];
+            const mess = ["Reset password request sended to your email"];
             setSuccessMessage(mess);
         }
     }, [resetPasswordSuccess]);
@@ -56,24 +55,6 @@ const PasswordRecovery = () => {
 
         dispatch(resetPassword({ auth, email, config }))
 
-
-        // try {
-        //     const config = {
-        //         url: "http://localhost:3000/login",
-        //     }
-
-        //     await sendPasswordResetEmail(auth, email, config)
-        //         .then(() => {
-        //             console.log("PW reset")
-        //         })
-        //         .catch(() => {
-        //             const err = ["Email was not found. Please try again."]
-        //             setErrors(err);
-        //         })
-
-        // } catch (error) {
-        //     console.log(error)
-        // }
     }
     return (
         <AuthWrapper headline="Recovery">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signUpUser } from "../../redux/User/user.actions";
+import { resetAuthForms, signUpUser } from "../../redux/User/user.actions";
 import AuthWrapper from "../AuthWrapper";
 import Button from "../Form/Button";
 import FormInput from "../Form/FormInput";
@@ -44,6 +44,7 @@ const SignUp = props => {
     useEffect(() => {
         if (signUpSuccess) {
             resetValue();
+            dispatch(resetAuthForms());
             navigate("/");
         }
     }, [signUpSuccess]);

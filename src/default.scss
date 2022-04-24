@@ -125,6 +125,14 @@ li {
     height: calc(100% - 6.5rem - 5.8rem);
 }
 
+.link {
+    font-size: 1.8rem;
+    line-height: 1;
+    color: black;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
 @media only screen and (max-width: 980px) {
     html {
         font-size: 9px;
