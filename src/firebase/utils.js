@@ -10,13 +10,13 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 
-const provider = new GoogleAuthProvider();
+export const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => {
-    signInWithPopup(auth, provider);
-}
+// export const signInWithGoogle = () => {
+//     signInWithPopup(auth, provider);
+// }
 
-export const handleUserProfile = async (userAuth, additionalData) => {
+export const handleUserProfile = async ({ userAuth, additionalData }) => {
 
     if (!userAuth) return;
     const { uid } = userAuth;
