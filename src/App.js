@@ -11,8 +11,8 @@ import SignUp from "./components/SignUp";
 import Login from "./pages/Login"
 import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
-import { connect } from "react-redux";
-import { setCurrentUser } from "./redux/User/user.actions"
+import { connect, useDispatch } from "react-redux";
+import { checkUserAction, setCurrentUser } from "./redux/User/user.actions"
 import Dashboard from "./pages/Dashboard";
 import WithAuth from "./hoc/withAuth"
 
@@ -30,27 +30,28 @@ const App = props => {
 
   // authListener = null;
   const { setCurrentUser, currentUser } = props
-  console.log(currentUser)
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
+    dispatch(checkUserAction())
 
-    const authListener = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        onSnapshot(userRef, snapshot => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          })
-        })
-      }
-      setCurrentUser(userAuth);
-    });
+    // const authListener = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await handleUserProfile(userAuth);
+    //     onSnapshot(userRef, snapshot => {
+    //       setCurrentUser({
+    //         id: snapshot.id,
+    //         ...snapshot.data(),
+    //       })
+    //     })
+    //   }
+    //   setCurrentUser(userAuth);
+    // });
 
-    return () => {
-      authListener();
-    }
+    // return () => {
+    //   authListener();
+    // }
   }, [])
 
   return (

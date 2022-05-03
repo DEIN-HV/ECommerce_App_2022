@@ -12,6 +12,7 @@ const INITIAL_STATE = {
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
+    console.log(state = INITIAL_STATE, action)
     switch (action.type) {
 
         case userTypes.SET_CURRENT_USER:
@@ -23,7 +24,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case userTypes.SIGNIN_SUCCESS:
             return {
                 ...state,
-                signInSuccess: action.payload,
+                currentUser: action.payload,
             }
 
         case userTypes.SIGNIN_FALSE:
@@ -33,6 +34,25 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 signInMess: action.payload,
             }
 
+        case userTypes.SIGNOUT_USER_SUCCESS:
+            return {
+                ...state,
+                ...INITIAL_STATE,
+            }
+
+        case userTypes.SIGN_UP_USER_SUCCESS:
+            return {
+                ...state,
+                signUpSuccess: action.payload,
+            }
+
+        case userTypes.SIGN_UP_USER_ERROR:
+            return {
+                ...state,
+                signUpError: action.payload,
+            }
+
+        // DELETE-----------------------------
         case userTypes.SIGNUP_SUCCESS:
             return {
                 ...state,

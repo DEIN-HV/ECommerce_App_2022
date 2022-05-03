@@ -17,10 +17,36 @@ export const signInSuccess = user => ({
     payload: user,
 })
 
+export const checkUserAction = () => ({
+    type: userTypes.CHECK_USER_SESSION,
+})
 
 export const setCurrentUser = user => ({
     type: userTypes.SET_CURRENT_USER,
     payload: user,
+});
+
+export const signOutStart = () => ({
+    type: userTypes.SIGNOUT_USER_START,
+});
+
+export const signOutSuccess = () => ({
+    type: userTypes.SIGNOUT_USER_SUCCESS,
+});
+
+export const signUpStart = (userCredentials) => ({
+    type: userTypes.SIGN_UP_USER_START,
+    payload: userCredentials,
+});
+
+export const signUpSuccess = (user) => ({
+    type: userTypes.SIGN_UP_USER_SUCCESS,
+    payload: user,
+});
+
+export const signUpError = (err) => ({
+    type: userTypes.SIGN_UP_USER_ERROR,
+    payload: err,
 });
 
 export const signInUser = (email, password) => async dispatch => {

@@ -2,7 +2,8 @@ import Logo from "../../assets/logo.png"
 import "./styles.scss";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/utils";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { signOutStart } from "../../redux/User/user.actions";
 
 
 const mapStateToProps = ({ user }) => ({
@@ -12,6 +13,11 @@ const mapStateToProps = ({ user }) => ({
 const Header = props => {
 
     const { currentUser } = useSelector(mapStateToProps);
+    const dispatch = useDispatch();
+
+    const signOut = () => {
+        dispatch(signOutStart())
+    }
 
     return (
         <header className="header">
@@ -26,22 +32,22 @@ const Header = props => {
                         ? <ul>
                             <li>
                                 <Link to="/dashboard">
+                                    My Account
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard">
                                     Dashboard
                                 </Link>
                             </li>
                             <li>
-                                <span className="link" onClick={() => auth.signOut()}>
+                                <span className="link" onClick={() => signOut()}>
                                     Logout
                                 </span>
                             </li>
                         </ul>
 
                         : <ul>
-                            <li>
-                                <Link to="/dashboard">
-                                    My Account
-                                </Link>
-                            </li>
                             <li>
                                 <Link to="/registration">
                                     Register

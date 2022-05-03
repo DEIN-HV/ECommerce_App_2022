@@ -1,13 +1,11 @@
-import Button from "../Form/Button";
-import "./styles.scss";
-import { auth } from "../../firebase/utils";
-import { signInWithEmailAndPassword } from "firebase/auth"
-import { Component, useEffect, useState } from "react"
-import FormInput from "../Form/FormInput";
-import AuthWrapper from "../AuthWrapper";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetAuthForms, signInUser, signInWithGoogle } from "../../redux/User/user.actions"
+import { Link, useNavigate } from "react-router-dom";
+import { emailSignInStart, resetAuthForms, signInUser, signInWithGoogle } from "../../redux/User/user.actions";
+import AuthWrapper from "../AuthWrapper";
+import Button from "../Form/Button";
+import FormInput from "../Form/FormInput";
+import "./styles.scss";
 
 const initialState = {
     email: "",
@@ -16,7 +14,7 @@ const initialState = {
 }
 
 const mapStateSuccess = ({ user }) => ({
-    signInSuccess: user.signInSucess
+    currentUser: user.currentUser
 })
 
 const mapStateFalse = ({ user }) => ({
@@ -32,16 +30,16 @@ const SignIn = props => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { signInSuccess } = useSelector(mapStateSuccess);
+    const { currentUser } = useSelector(mapStateSuccess);
     const { signInFalse, signInMess } = useSelector(mapStateFalse);
 
     useEffect(() => {
-        if (signInSuccess) {
+        if (currentUser) {
             resetForm();
             dispatch(resetAuthForms());
             navigate("/");
         }
-    }, [signInSuccess]);
+    }, [currentUser]);
 
     useEffect(() => {
         if (signInFalse) setErrors(signInMess)
@@ -55,7 +53,9 @@ const SignIn = props => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        dispatch(signInUser(email, password))
+        dispatch(emailSignInStart({ email, password }))
+        // dispatch(signInUser({ email, password }))
+
     }
 
     const handleSignInWithGoogle = () => {
