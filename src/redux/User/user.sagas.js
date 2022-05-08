@@ -6,7 +6,6 @@ import { signInSuccess, signOutSuccess, signUpError, signUpSuccess } from "./use
 import userTypes from "./user.types"
 
 export function* getSnapshopFromUserAuth(user, additionalData = {}) {
-    console.log(user)
     try {
         const userRef = yield call(handleUserProfile, { userAuth: user, additionalData });
         const snapshot = yield getDoc(userRef);

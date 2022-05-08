@@ -12,51 +12,28 @@ import Login from "./pages/Login"
 import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import { connect, useDispatch } from "react-redux";
-import { checkUserAction, setCurrentUser } from "./redux/User/user.actions"
+import { checkUserSession, setCurrentUser } from "./redux/User/user.actions"
 import Dashboard from "./pages/Dashboard";
 import WithAuth from "./hoc/withAuth"
+import WithAdminAuth from "./hoc/withAdminAuth";
+import Admin from "./pages/Admin";
+import AdminToolbar from "./components/AdminToolbar";
 
 const initialState = {
   currentUser: null,
 }
 
 const App = props => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     ...initialState
-  //   }
-  // }
-
-  // authListener = null;
   const { setCurrentUser, currentUser } = props
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    dispatch(checkUserAction())
-
-    // const authListener = auth.onAuthStateChanged(async userAuth => {
-    //   if (userAuth) {
-    //     const userRef = await handleUserProfile(userAuth);
-    //     onSnapshot(userRef, snapshot => {
-    //       setCurrentUser({
-    //         id: snapshot.id,
-    //         ...snapshot.data(),
-    //       })
-    //     })
-    //   }
-    //   setCurrentUser(userAuth);
-    // });
-
-    // return () => {
-    //   authListener();
-    // }
+    dispatch(checkUserSession())
   }, [])
 
   return (
     <div className="App">
-
+      <AdminToolbar />
       <Routes>
         <Route path='/' element={
           <MainLayout>
@@ -95,6 +72,14 @@ const App = props => {
               <Dashboard />
             </MainLayout>
           </WithAuth>
+        } />
+
+        <Route path='/admin' element={
+          <WithAdminAuth>
+            <MainLayout>
+              <Admin />
+            </MainLayout>
+          </WithAdminAuth>
         } />
 
       </Routes>

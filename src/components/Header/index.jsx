@@ -13,6 +13,7 @@ const mapStateToProps = ({ user }) => ({
 const Header = props => {
 
     const { currentUser } = useSelector(mapStateToProps);
+    console.log(currentUser)
     const dispatch = useDispatch();
 
     const signOut = () => {
