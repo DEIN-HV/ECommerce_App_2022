@@ -18,6 +18,7 @@ import WithAuth from "./hoc/withAuth"
 import WithAdminAuth from "./hoc/withAdminAuth";
 import Admin from "./pages/Admin";
 import AdminToolbar from "./components/AdminToolbar";
+import AdminLayout from "./layouts/AdminLayout";
 
 const initialState = {
   currentUser: null,
@@ -76,9 +77,9 @@ const App = props => {
 
         <Route path='/admin' element={
           <WithAdminAuth>
-            <MainLayout>
+            <AdminLayout>
               <Admin />
-            </MainLayout>
+            </AdminLayout>
           </WithAdminAuth>
         } />
 
