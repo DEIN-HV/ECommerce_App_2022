@@ -4,6 +4,7 @@ import Button from "../../components/Form/Button";
 import FormInput from "../../components/Form/FormInput";
 import FormSelect from "../../components/Form/FormSelect";
 import Modal from "../../components/Modal";
+import {addNewProduct} from "../../redux/Product/product.action"
 import "./styles.scss"
 
 const Admin = () => {
@@ -23,6 +24,20 @@ const Admin = () => {
         hideModal,
         toggleModal,
     }
+
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        dispatch(addNewProduct({
+            productCategory,
+            productName,
+            productThumbnail,
+            productPrice,
+            productDesc
+        }))
+
+
+    }
+
     return (
         <div className="admin">
             <div className="callToActions">
@@ -37,7 +52,7 @@ const Admin = () => {
 
             <Modal {...modalConfig}>
                 <div className="addNewProductForm">
-                    <form action="">
+                    <form onSubmit={handleSubmit}>
                         <h2>
                             Add new product
                         </h2>
@@ -77,6 +92,7 @@ const Admin = () => {
                             value={productPrice}
                             handleChange={e => setProductPrice(e.target.value)}
                         />
+                        <Button type="submit">Add new product</Button>
                     </form>
                 </div>
             </Modal>
