@@ -4,8 +4,8 @@ import Button from "../../components/Form/Button";
 import FormInput from "../../components/Form/FormInput";
 import FormSelect from "../../components/Form/FormSelect";
 import Modal from "../../components/Modal";
-import {addNewProduct} from "../../redux/Product/product.action"
-import "./styles.scss"
+import "./styles.scss";
+import { addProductStart } from "../../redux/Product/product.action"
 
 const Admin = () => {
 
@@ -25,9 +25,9 @@ const Admin = () => {
         toggleModal,
     }
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addNewProduct({
+        dispatch(addProductStart({
             productCategory,
             productName,
             productThumbnail,
