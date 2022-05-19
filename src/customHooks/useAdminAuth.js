@@ -12,12 +12,8 @@ const useAdminAuth = props => {
 
     const { currentUser } = useSelector(mapState);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    console.log(currentUser)
-
 
     useEffect(() => {
-        dispatch(checkUserSession())
         if (!checkIsAdmin(currentUser)) {
             navigate("/login");
         }
