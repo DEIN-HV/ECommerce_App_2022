@@ -51,7 +51,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 signUpError: action.payload,
             }
 
-        // DELETE-----------------------------
         case userTypes.SIGNUP_SUCCESS:
             return {
                 ...state,

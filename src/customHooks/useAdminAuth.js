@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { checkUserSession } from "../redux/User/user.actions";
-import checkIsAdmin from "../utils";
+import { checkIsAdmin } from "../utils";
 
 const mapState = ({ user }) => ({
     currentUser: user.currentUser,

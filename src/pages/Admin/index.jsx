@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../components/Form/Button";
 import FormInput from "../../components/Form/FormInput";
 import FormSelect from "../../components/Form/FormSelect";
 import Modal from "../../components/Modal";
 import "./styles.scss";
-import { addProductStart } from "../../redux/Product/product.action"
+import { addProductStart, fetchProductStart } from "../../redux/Product/product.action";
+import messages from "../../messages";
+import ProductList from "../../components/productList";
+
+const mapState = ({ product }) => ({
+    addProductSuccess: product.addProductSuccess,
+    products: product.products,
+})
 
 const Admin = () => {
 
-    // const { products } = useSelector(mapState);
     const dispatch = useDispatch();
     const [hideModal, setHideModal] = useState(true);
     const [productCategory, setProductCategory] = useState('mens');
@@ -17,8 +23,25 @@ const Admin = () => {
     const [productThumbnail, setProductThumbnail] = useState('');
     const [productPrice, setProductPrice] = useState(0);
     const [productDesc, setProductDesc] = useState('');
+    const [productData, setProductData] = useState([]);
+    const [message, setMessage] = useState('');
 
-    const toggleModal = () => setHideModal(!hideModal);
+    const toggleModal = () => {
+        setHideModal(!hideModal);
+        resetForm();
+    }
+
+
+    const { addProductSuccess, products } = useSelector(mapState);
+    console.log(products)
+    useEffect(() => {
+        if (addProductSuccess) setMessage(messages.ADD_PRODUCT_SUCCESS)
+    }, [addProductSuccess]);
+
+    useEffect(() => {
+        dispatch(fetchProductStart());
+    }, [])
+
 
     const modalConfig = {
         hideModal,
@@ -34,8 +57,15 @@ const Admin = () => {
             productPrice,
             productDesc
         }))
+    }
 
-
+    const resetForm = () => {
+        setProductCategory('');
+        setProductName('');
+        setProductThumbnail('');
+        setProductPrice(0);
+        setProductDesc('');
+        setMessage('');
     }
 
     return (
@@ -53,49 +83,60 @@ const Admin = () => {
             <Modal {...modalConfig}>
                 <div className="addNewProductForm">
                     <form onSubmit={handleSubmit}>
-                        <h2>
-                            Add new product
-                        </h2>
 
-                        <FormSelect
-                            label="Category"
-                            options={[{
-                                value: "mens",
-                                name: "Mens"
-                            }, {
-                                value: "womens",
-                                name: "Womens"
-                            }]}
-                            handleChange={e => setProductCategory(e.target.value)}
-                        />
+                        <div className="topForm">
+                            <h2>Add new product</h2>
+                        </div>
 
-                        <FormInput
-                            label="Name"
-                            type="text"
-                            value={productName}
-                            handleChange={e => setProductName(e.target.value)}
-                        />
+                        <div className="centerForm">
+                            <FormSelect
+                                label="Category"
+                                options={[{
+                                    value: "mens",
+                                    name: "Mens"
+                                }, {
+                                    value: "womens",
+                                    name: "Womens"
+                                }]}
+                                handleChange={e => setProductCategory(e.target.value)}
+                            />
 
-                        <FormInput
-                            label="Main image URL"
-                            type="url"
-                            value={productThumbnail}
-                            handleChange={e => setProductThumbnail(e.target.value)}
-                        />
+                            <FormInput
+                                label="Name"
+                                type="text"
+                                value={productName}
+                                handleChange={e => setProductName(e.target.value)}
+                            />
 
-                        <FormInput
-                            label="Price"
-                            type="number"
-                            min="0.00"
-                            max="10000.00"
-                            step="0.01"
-                            value={productPrice}
-                            handleChange={e => setProductPrice(e.target.value)}
-                        />
-                        <Button type="submit">Add new product</Button>
+                            <FormInput
+                                label="Main image URL"
+                                type="url"
+                                value={productThumbnail}
+                                handleChange={e => setProductThumbnail(e.target.value)}
+                            />
+
+                            <FormInput
+                                label="Price"
+                                type="number"
+                                min="0.00"
+                                max="10000.00"
+                                step="0.01"
+                                value={productPrice}
+                                handleChange={e => setProductPrice(e.target.value)}
+                            />
+
+                        </div>
+
+                        <div className="bottomForm">
+                            <div className="modalMessage">
+                                <span className="successMess">{message}</span>
+                            </div>
+                            <Button type="submit">Add new product</Button>
+                        </div>
                     </form>
                 </div>
             </Modal>
+            <ProductList products={products} />
         </div>
     )
 }

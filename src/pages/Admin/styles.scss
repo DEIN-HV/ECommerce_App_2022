@@ -19,8 +19,25 @@
   
         }
       }
-  
     }
+
+    .addNewProductForm{
+      position: relative;
+
+      .centerForm{
+        margin-bottom: 20px;
+      }
+      
+      .modalMessage{
+        position: absolute;
+        top: 305px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        display: flex;
+        justify-content: center;
+      }
+    }
+    
   }
   
   .manageProducts {

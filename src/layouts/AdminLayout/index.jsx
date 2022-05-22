@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import Header from "../../components/Header"
-import VerticalNav from "../../components/VerticalNav"
+import VerticalNav from "../../components/VerticalNav";
+import Footer from "../../components/Footer"
 
 const AdminLayout = props => {
     return (
@@ -26,7 +27,7 @@ const AdminLayout = props => {
                     {props.children}
                 </div>
             </div>
-
+            <Footer />
         </div>
     )
 }
