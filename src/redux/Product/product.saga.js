@@ -32,8 +32,8 @@ export function* onAddProductStart() {
 }
 
 //FETCH PRODUCT--------------------------------------------
-export function* fetchProduct() {
-    const products = yield handleFetchProduct();
+export function* fetchProduct({ payload: productCategory }) {
+    const products = yield handleFetchProduct(productCategory);
     yield put(setProducts(products));
 }
 

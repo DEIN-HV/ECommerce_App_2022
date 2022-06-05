@@ -4,7 +4,7 @@ import { deleteProuctStart } from '../../redux/Product/product.action';
 import Button from '../Form/Button';
 import "./styles.scss"
 
-export const ProductItem = ({ product, index }) => {
+export const AdminProductItem = ({ product, index }) => {
     const dispatch = useDispatch();
     const { id, productName, productThumbnail, productDesc, productPrice } = product;
 
@@ -32,4 +32,4 @@ export const ProductItem = ({ product, index }) => {
     )
 }
 
-export default ProductItem;
+export default AdminProductItem;

@@ -7,7 +7,7 @@ import Modal from "../../components/Modal";
 import "./styles.scss";
 import { addProductStart, fetchProductStart } from "../../redux/Product/product.action";
 import messages from "../../messages";
-import ProductList from "../../components/productList";
+import AdminProductList from "../../components/AdminProductList";
 
 const mapState = ({ product }) => ({
     addProductSuccess: product.addProductSuccess,
@@ -29,6 +29,7 @@ const Admin = () => {
     const toggleModal = () => {
         setHideModal(!hideModal);
         resetForm();
+        setMessage('');
     }
 
 
@@ -56,7 +57,9 @@ const Admin = () => {
             productThumbnail,
             productPrice,
             productDesc
-        }))
+        }));
+
+        resetForm();
     }
 
     const resetForm = () => {
@@ -65,7 +68,6 @@ const Admin = () => {
         setProductThumbnail('');
         setProductPrice(0);
         setProductDesc('');
-        setMessage('');
     }
 
     return (
@@ -136,7 +138,7 @@ const Admin = () => {
                     </form>
                 </div>
             </Modal>
-            <ProductList products={products} />
+            <AdminProductList products={products} />
         </div>
     )
 }

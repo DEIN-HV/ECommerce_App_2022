@@ -19,6 +19,7 @@ import WithAdminAuth from "./hoc/withAdminAuth";
 import Admin from "./pages/Admin";
 import AdminToolbar from "./components/AdminToolbar";
 import AdminLayout from "./layouts/AdminLayout";
+import Search from "./pages/Search";
 
 const initialState = {
   currentUser: null,
@@ -72,6 +73,18 @@ const App = props => {
             <MainLayout>
               <Dashboard />
             </MainLayout>
+          </WithAuth>
+        } />
+
+        <Route path='/search' element={
+          <WithAuth>
+            <Search />
+          </WithAuth>
+        } />
+
+        <Route path='/search/:filterType' element={
+          <WithAuth>
+            <Search />
           </WithAuth>
         } />
 

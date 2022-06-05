@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, query, where } from "firebase/firestore";
 import { firestore } from "../../firebase/utils"
 import { randomId } from "../../utils";
 
@@ -12,9 +12,14 @@ export const handleAddProduct = async (product) => {
     }
 }
 
-export const handleFetchProduct = async () => {
+export const handleFetchProduct = async (productCategory) => {
     try {
-        const querySnapshot = await getDocs(collection(firestore, "products"));
+        let q = collection(firestore, "products");
+        if (productCategory) {
+            q = query(q, where("productCategory", "==", productCategory));
+        }
+        // console.log("q", q)
+        const querySnapshot = await getDocs(q);
         const products = []
         querySnapshot.forEach((doc) => {
             const data = doc.data();

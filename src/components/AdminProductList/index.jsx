@@ -1,9 +1,8 @@
 import React from 'react';
-import ProductItem from '../ProductItem';
+import AdminProductItem from '../AdminProductItem';
 import "./styles.scss"
 
-export const ProductList = ({ products }) => {
-    console.log(products)
+export const AdminProductList = ({ products }) => {
     return (
         <div className='manageProducts'>
             <table border="0" cellPadding="0" cellSpacing="0">
@@ -22,7 +21,7 @@ export const ProductList = ({ products }) => {
                                         {
                                             (Array.isArray(products) && products.length > 0)
                                             && products.map((product, index) => (
-                                                <ProductItem product={product} key={index} />
+                                                <AdminProductItem product={product} key={index} />
                                             ))
                                         }
                                     </tbody>
@@ -36,4 +35,4 @@ export const ProductList = ({ products }) => {
     )
 }
 
-export default ProductList
+export default AdminProductList

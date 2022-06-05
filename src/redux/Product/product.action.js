@@ -9,8 +9,9 @@ export const addProductSuccess = () => ({
     type: productTypes.ADD_NEW_PRODUCT_SUCCESS
 });
 
-export const fetchProductStart = () => ({
+export const fetchProductStart = (productCategory) => ({
     type: productTypes.FETCH_PRODUCT_START,
+    payload: productCategory,
 });
 
 export const setProducts = (products) => ({
